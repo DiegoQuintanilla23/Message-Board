@@ -1,0 +1,64 @@
+body {
+    font-size: 1.2rem;
+    background-color: #ff5e5e;
+    background-image:
+        radial-gradient(circle, #ff9393 30%, transparent 30%),
+        radial-gradient(circle, #ff9393 30%, transparent 30%);
+    background-size: 80px 80px;
+    /* Tamaño mayor para más separación */
+    background-position: 0 0, 40px 40px;
+    /* Ajuste para centrar los puntos */
+    animation: move-dots 4s infinite linear;
+    overflow-x: hidden;
+    /* Evita el desbordamiento horizontal */
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif !important;
+}
+
+#demotext {
+    color: #267ee9;
+    font: italic bold Georgia, Serif;
+    text-shadow: -4px 3px 0 #19539a, -14px 7px 0 #555555;
+}
+
+@keyframes move-dots {
+    from {
+        background-position: 0 0, 40px 40px;
+    }
+
+    to {
+        background-position: 80px 80px, 120px 120px;
+        /* Movimiento ajustado para el tamaño mayor */
+    }
+}
+
+.btn-primary{
+    background-color: #ff5e5e;
+    border: 2px solid black;
+}
+
+#message-board {
+    width: 100%;
+    height: 500px; /* Altura del área del mensaje */
+    border: 2px dashed #ccc; /* Bordes del área */
+    position: relative;
+    overflow: hidden; /* Para ocultar sobres que se salgan del área */
+    background-color: #fff; /* Color de fondo del área */
+}
+
+.envelope {
+    width: 100px; /* Ancho del sobre */
+    height: 70px; /* Altura del sobre */
+    background-color: #f8f9fa; /* Color de fondo del sobre */
+    border: 1px solid #007bff; /* Borde del sobre */
+    position: absolute; /* Para posicionamiento aleatorio */
+    transform: rotate(10deg); /* Rotación para un efecto más dinámico */
+    transition: transform 0.3s; /* Transición suave al mover */
+    display: flex; /* Para centrar el texto */
+    align-items: center; /* Centrando verticalmente */
+    justify-content: center; /* Centrando horizontalmente */
+    font-weight: bold; /* Texto en negrita */
+}
+
+.envelope:hover {
+    transform: rotate(0deg) scale(1.1); /* Efecto al pasar el mouse */
+}
