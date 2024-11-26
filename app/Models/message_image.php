@@ -10,6 +10,8 @@ class Message_Image extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'message_images';
+
     /**
      * The attributes that are mass assignable.
      *

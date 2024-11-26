@@ -10,13 +10,16 @@ class Message extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'messages';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
+        'receiver_id',
+        'sender_id',
         'content',
     ];
 

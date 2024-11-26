@@ -42,16 +42,16 @@ body {
     border: 2px dashed #ccc; /* Bordes del área */
     position: relative;
     overflow: hidden; /* Para ocultar sobres que se salgan del área */
-    background-color: #fff; /* Color de fondo del área */
+    background-color: #ffffff93; /* Color de fondo del área */
 }
 
 .envelope {
-    width: 100px; /* Ancho del sobre */
-    height: 70px; /* Altura del sobre */
+    width: 150px; /* Ancho del sobre */
+    height: 90px; /* Altura del sobre */
     background-color: #f8f9fa; /* Color de fondo del sobre */
-    border: 1px solid #007bff; /* Borde del sobre */
+    border: 2px solid #ff5e5e; /* Borde del sobre */
     position: absolute; /* Para posicionamiento aleatorio */
-    transform: rotate(10deg); /* Rotación para un efecto más dinámico */
+    transform: rotate(0deg); /* Rotación para un efecto más dinámico */
     transition: transform 0.3s; /* Transición suave al mover */
     display: flex; /* Para centrar el texto */
     align-items: center; /* Centrando verticalmente */
@@ -60,5 +60,6 @@ body {
 }
 
 .envelope:hover {
-    transform: rotate(0deg) scale(1.1); /* Efecto al pasar el mouse */
+    transform: rotate(10deg) scale(1.1); /* Efecto al pasar el mouse */
+    z-index: 999;
 }

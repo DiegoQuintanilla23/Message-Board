@@ -10,6 +10,8 @@ class Friendship extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'friendships';
+
     /**
      * The attributes that are mass assignable.
      *

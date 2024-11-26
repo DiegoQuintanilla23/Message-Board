@@ -19,11 +19,12 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <link rel="stylesheet" href="{{ asset('styles.css') }}">
+        @livewireStyles
+        @livewireScripts
 
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen">
-            @include('layouts.navigation')
 
             <!-- Page Heading 
             @isset($header)
