@@ -6,18 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Message extends Model
+class message_Sdr_Rcvr extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'messages';
+    protected $table = 'message_sdr_rcvr';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
-        'content',
+        'message_id',
+        'receiver_id',
+        'sender_id',
     ];
 }

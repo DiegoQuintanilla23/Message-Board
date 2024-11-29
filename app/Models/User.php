@@ -46,28 +46,4 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    /**
-     * Define the friendship relationship between users.
-     */
-    public function friends()
-    {
-        return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id');
-    }
-
-    /**
-     * Messages sent by the user.
-     */
-    public function messages()
-    {
-        return $this->hasMany(Message::class);
-    }
-
-    /**
-     * Comments made by the user.
-     */
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
 }

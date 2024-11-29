@@ -34,11 +34,12 @@ body {
 .btn-primary{
     background-color: #ff5e5e;
     border: 2px solid black;
+    padding: 5px 10px;
 }
 
 #message-board {
     width: 100%;
-    height: 500px; /* Altura del área del mensaje */
+    height: 550px; /* Altura del área del mensaje */
     border: 2px dashed #ccc; /* Bordes del área */
     position: relative;
     overflow: hidden; /* Para ocultar sobres que se salgan del área */
@@ -62,4 +63,9 @@ body {
 .envelope:hover {
     transform: rotate(10deg) scale(1.1); /* Efecto al pasar el mouse */
     z-index: 999;
+}
+
+#friendCodeInput, #friendCode  {
+    font-family: monospace; /* Para que parezca un código */
+    text-align: center;
 }

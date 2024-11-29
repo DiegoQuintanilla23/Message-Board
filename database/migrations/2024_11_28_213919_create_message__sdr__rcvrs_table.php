@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('message_sdr_rcvr', function (Blueprint $table) {
             $table->id();
-            $table->text('content');
+            $table->bigInteger('message_id');
+            $table->bigInteger('receiver_id');
+            $table->bigInteger('sender_id');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('message_sdr_rcvr');
     }
 };

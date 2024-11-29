@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('friendships', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('friend_id')->constrained('users')->onDelete('cascade');
-            $table->unique(['user_id', 'friend_id']); // Evita duplicados de amistad
+            $table->bigInteger('user_id');
+            $table->bigInteger('friend_id');
+            $table->unique(['user_id', 'friend_id']);
+            $table->boolean('mutual')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

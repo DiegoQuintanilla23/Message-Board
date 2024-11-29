@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Livewire\Main;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {

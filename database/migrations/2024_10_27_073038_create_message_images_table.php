@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('message_images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('message_id')->constrained('messages')->onDelete('cascade');
+            $table->bigInteger('message_id');
             $table->string('image_loc');
             $table->timestamps();
             $table->softDeletes();

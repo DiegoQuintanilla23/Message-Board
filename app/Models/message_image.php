@@ -21,12 +21,4 @@ class Message_Image extends Model
         'message_id',
         'image_loc',
     ];
-
-    /**
-     * The message that this image belongs to.
-     */
-    public function message()
-    {
-        return $this->belongsTo(Message::class);
-    }
 }
