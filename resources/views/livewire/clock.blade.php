@@ -1,3 +1,3 @@
 <div wire:poll.1s="updateTime"> <!-- Poll cada segundo -->
-    <h1>{{ $currentTime }}</h1>
+    <h3>{{ $currentTime }}</h3>
 </div>

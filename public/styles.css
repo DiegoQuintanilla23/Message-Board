@@ -1,9 +1,9 @@
 body {
     font-size: 1.2rem;
-    background-color: #ff5e5e;
+    background-color: #8080ff;
     background-image:
-        radial-gradient(circle, #ff9393 30%, transparent 30%),
-        radial-gradient(circle, #ff9393 30%, transparent 30%);
+        radial-gradient(circle, white 30%, transparent 30%),
+        radial-gradient(circle, white 30%, transparent 30%);
     background-size: 80px 80px;
     /* Tamaño mayor para más separación */
     background-position: 0 0, 40px 40px;
@@ -15,9 +15,14 @@ body {
 }
 
 #demotext {
-    color: #267ee9;
+    color: #8080ff;
     font: italic bold Georgia, Serif;
-    text-shadow: -4px 3px 0 #19539a, -14px 7px 0 #555555;
+    text-shadow: -4px 3px 0 #4d4d9d, -14px 7px 0 #bababa;
+}
+#demotext-ex {
+    color: #ff0080;
+    font: italic bold Georgia, Serif;
+    text-shadow: -4px 3px 0 #a00151, -14px 7px 0 #bababa;
 }
 
 @keyframes move-dots {
@@ -39,29 +44,54 @@ body {
 
 #message-board {
     width: 100%;
-    height: 550px; /* Altura del área del mensaje */
-    border: 2px dashed #ccc; /* Bordes del área */
+    height: 550px;
+    border: 2px solid black;
     position: relative;
-    overflow: hidden; /* Para ocultar sobres que se salgan del área */
-    background-color: #ffffff93; /* Color de fondo del área */
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.77);
+    border-radius: 10px;
 }
 
-.envelope {
-    width: 150px; /* Ancho del sobre */
-    height: 90px; /* Altura del sobre */
-    background-color: #f8f9fa; /* Color de fondo del sobre */
-    border: 2px solid #ff5e5e; /* Borde del sobre */
-    position: absolute; /* Para posicionamiento aleatorio */
-    transform: rotate(0deg); /* Rotación para un efecto más dinámico */
-    transition: transform 0.3s; /* Transición suave al mover */
-    display: flex; /* Para centrar el texto */
-    align-items: center; /* Centrando verticalmente */
-    justify-content: center; /* Centrando horizontalmente */
-    font-weight: bold; /* Texto en negrita */
+.envelope2 {
+    width: 150px;
+    height: 90px;
+    background-image: url('assets/envelope2.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    transform: rotate(0deg);
+    transition: transform 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 2px #4d4d9d solid;
 }
 
-.envelope:hover {
-    transform: rotate(10deg) scale(1.1); /* Efecto al pasar el mouse */
+.envelope2:hover {
+    transform: scale(1.2); /* Efecto al pasar el mouse */
+    z-index: 999;
+}
+
+.envelope1 {
+    width: 150px;
+    height: 90px;
+    background-image: url('assets/envelope1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    transform: rotate(0deg);
+    transition: transform 0.3s;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 2px #a00151 solid;
+}
+
+.envelope1:hover {
+    transform: scale(1.2); /* Efecto al pasar el mouse */
     z-index: 999;
 }
 

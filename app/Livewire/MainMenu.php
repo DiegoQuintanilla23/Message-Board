@@ -8,17 +8,45 @@ use App\Models\message_Sdr_Rcvr;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Livewire\Component;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class MainMenu extends Component
 {
+    use WithFileUploads;
+
     public $friendCode;
     public $myFriendCode;
     public $myID;
-    public $newMessage;
+    public $newMessages;
     public $selectedFriend;
 
     public $message;
     public $friends;
+    public $foto;
+
+    public function loadFriends()
+    {
+        // Consulta 1: Donde friendCode está en el campo user_id
+        $friendsAsUser = Friendship::select('users.username', 'users.pfploc', 'users.id')
+            ->join('users', 'users.id', '=', 'friendships.friend_id')
+            ->where('friendships.user_id', $this->myID)
+            ->where('friendships.mutual', 1)
+            ->get();
+
+        // Consulta 2: Donde friendCode está en el campo friend_id
+        $friendsAsFriend = Friendship::select('users.username', 'users.pfploc', 'users.id')
+            ->join('users', 'users.id', '=', 'friendships.user_id')
+            ->where('friendships.friend_id', $this->myID)
+            ->where('friendships.mutual', 1)
+            ->get();
+
+        // Combina los resultados de ambas consultas
+        $this->friends = $friendsAsUser->merge($friendsAsFriend);
+
+        // Elimina duplicados si es necesario (por ejemplo, si hay amigos en ambas consultas)
+        $this->friends = $this->friends->unique('id');
+    }
 
     public function sendFriendRequest()
     {
@@ -50,38 +78,42 @@ class MainMenu extends Component
         }
 
         $this->friendCode = '';
+        $this->loadFriends();
     }
 
     public function sendNewMessage()
     {
-        // Validar que el mensaje no esté vacío
-        if (empty($this->newMessage)) {
-            session()->flash('error', 'Message content cannot be empty.');
-            return;
+        // Validar los datos de entrada
+        $this->validate([
+            'newMessages' => 'required|string|max:232323',
+            'selectedFriend' => 'required|exists:users,id',
+            'foto' => 'nullable|image|max:2048', // Valida que sea imagen y menor a 2MB
+        ]);
+
+        // Manejar el archivo subido si existe
+        $nombreArch = null;
+        if ($this->foto) {
+            $nombreArch = $this->foto->store('Images', 'public');
         }
-    
-        // Validar que se haya seleccionado un amigo
-        if (empty($this->selectedFriend)) {
-            session()->flash('error', 'Please select a friend to send the message to.');
-            return;
-        }
-    
+
+        dd($this->foto);
+
         // Crear el mensaje
         $message = Message::create([
-            'content' => $this->newMessage,
+            'content' => $this->newMessages,
         ]);
-    
+
         // Crear la relación en message_sdr_rcvr
         message_Sdr_Rcvr::create([
             'message_id' => $message->id,
             'sender_id' => $this->myID,
             'receiver_id' => $this->selectedFriend,
         ]);
-    
+
         // Mensaje de éxito
         session()->flash('success', 'Message sent successfully!');
+        $this->reset(['newMessages', 'selectedFriend', 'foto']); // Limpiar inputs
     }
-    
 
     public function mount()
     {
@@ -89,28 +121,10 @@ class MainMenu extends Component
         $this->myID = FacadesAuth::user()->id;
         $this->friendCode = '';
         $this->message = '';
-        $this->newMessage = '';
+        $this->newMessages = '';
         $this->selectedFriend = '';
 
-        // Consulta 1: Donde friendCode está en el campo user_id
-        $friendsAsUser = Friendship::select('users.username', 'users.pfploc', 'users.id')
-            ->join('users', 'users.id', '=', 'friendships.friend_id')
-            ->where('friendships.user_id', $this->myID)
-            ->where('friendships.mutual', 1)
-            ->get();
-
-        // Consulta 2: Donde friendCode está en el campo friend_id
-        $friendsAsFriend = Friendship::select('users.username', 'users.pfploc', 'users.id')
-            ->join('users', 'users.id', '=', 'friendships.user_id')
-            ->where('friendships.friend_id', $this->myID)
-            ->where('friendships.mutual', 1)
-            ->get();
-
-        // Combina los resultados de ambas consultas
-        $this->friends = $friendsAsUser->merge($friendsAsFriend);
-
-        // Elimina duplicados si es necesario (por ejemplo, si hay amigos en ambas consultas)
-        $this->friends = $this->friends->unique('id');
+        $this->loadFriends();
     }
 
     public function render()

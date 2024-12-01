@@ -45,6 +45,14 @@ return [
             'throw' => false,
         ],
 
+        'Images' => [
+            'driver' => 'local',
+            'root' => public_path('Images'), // Cambiado a public_path para almacenar en public/Images
+            'url' => env('APP_URL') . '/Images', // URL pública accesible
+            'visibility' => 'public', // Los archivos serán accesibles públicamente
+            'throw' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

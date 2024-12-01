@@ -1,1 +1,1 @@
-<img src="{{ asset('assets/logo.png') }}" alt="">
+<img class="rotate-center" src="{{ asset('assets/logo.png') }}" alt="">

@@ -11,6 +11,7 @@ use Livewire\Attributes\On;
 class MessageBoard extends Component
 {
     public $messages;
+    public $mymessages;
     public $width = 0;
     public $height = 0;
 
@@ -23,18 +24,39 @@ class MessageBoard extends Component
     public function loadMessages()
     {
         $userId = Auth::id();
-        
+
         $this->messages = message_Sdr_Rcvr::select(
             'messages.content',
             'messages.created_at',
             'messages.id',
             'message_sdr_rcvr.receiver_id',
             'message_sdr_rcvr.sender_id',
-            'message_images.image_loc')
-            ->join('messages','messages.id','=','message_sdr_rcvr.message_id')
+            'message_images.image_loc',
+            'users.username',
+            'users.pfploc',
+            'messages.created_at'
+        )
+            ->join('messages', 'messages.id', '=', 'message_sdr_rcvr.message_id')
+            ->join('users', 'users.id', '=', 'message_sdr_rcvr.sender_id')
             ->leftJoin('message_images', 'messages.id', '=', 'message_images.message_id')
             ->where('message_sdr_rcvr.receiver_id', $userId)
-            ->orWhere('message_sdr_rcvr.sender_id', $userId)
+            ->latest()->get();
+
+        $this->mymessages = message_Sdr_Rcvr::select(
+            'messages.content',
+            'messages.created_at',
+            'messages.id',
+            'message_sdr_rcvr.receiver_id',
+            'message_sdr_rcvr.sender_id',
+            'message_images.image_loc',
+            'users.username',
+            'users.pfploc',
+            'messages.created_at'
+        )
+            ->join('messages', 'messages.id', '=', 'message_sdr_rcvr.message_id')
+            ->join('users', 'users.id', '=', 'message_sdr_rcvr.sender_id')
+            ->leftJoin('message_images', 'messages.id', '=', 'message_images.message_id')
+            ->where('message_sdr_rcvr.sender_id', $userId)
             ->latest()->get();
     }
 

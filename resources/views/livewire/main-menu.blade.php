@@ -2,31 +2,36 @@
 
     <div class="container mt-4">
         <div class="row">
-            <div class="col-4 d-flex justify-content-start">
-                <!-- Botón para abrir el modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal1">
-                    Add Friends
-                </button>
-                <!-- Botón para abrir el form -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal2">
-                    New Message
-                </button>
+            <div class="col-4 d-flex justify-content-start align-items-center">
+                <div>
+                    <!-- Botón para abrir el modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal1">
+                        Add Friends
+                    </button>
+                    <!-- Botón para abrir el form -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal2">
+                        New Message
+                    </button>
+                </div>
+
             </div>
-            <div class="col-4 d-flex justify-content-center">
+            <div class="col-4 d-flex justify-content-center align-items-center">
                 <livewire:clock />
             </div>
-            <div class="col-4 d-flex justify-content-end">
-                <!-- Botón para ir a la ruta de perfil -->
-                <a href="{{ route('profile.edit') }}" class="btn btn-primary">
-                    Profile
-                </a>
-                <!-- Botón para logout como formulario -->
-                <form method="POST" action="{{ route('logout') }}" style="display: inline;">
-                    @csrf
-                    <button type="submit" class="btn btn-primary">
-                        Logout
-                    </button>
-                </form>
+            <div class="col-4 d-flex justify-content-end align-items-center">
+                <div>
+                    <!-- Botón para ir a la ruta de perfil -->
+                    <a href="{{ route('profile.edit') }}" class="btn btn-primary">
+                        Profile
+                    </a>
+                    <!-- Botón para logout como formulario -->
+                    <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-primary">
+                            Logout
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -63,7 +68,7 @@
                             Request</button>
                     </div>
 
-                    <div class="mt-4">
+                    <div class="mt-4" wire:ignore>
                         <h5>Your Friends:</h5>
                         <ul class="list-group">
                             @forelse($friends as $friend)
@@ -102,7 +107,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- Dropdown to select friend -->
-                    <div class="form-group">
+                    <div class="form-group" wire:ignore>
                         <label for="friendSelect">Select Friend</label>
                         <select id="friendSelect" wire:model="selectedFriend" class="form-control" required>
                             <option value="" disabled selected>Select a friend</option>
@@ -113,11 +118,34 @@
                     </div>
 
                     <div class="form-group">
-                        <textarea id="newMessage" name="newMessage" wire:model="newMessage" class="form-control" maxlength="232323"
+                        <label for="foto" class="form-label">Imagen</label> <br>
+                        <label class="btn btn-primary" style="width: 100%; cursor: pointer;">
+                            <i class="fa fa-cloud-upload" aria-hidden="true"></i> Imagen
+                            <input type="file" accept="image/*" id="uploadImageNom" wire:model="foto" style="display: none;">
+                        </label>
+                    
+                        <div class="row mt-3">
+                            <div class="col-12 d-flex justify-content-center">
+                                @if ($foto)
+                                    <img src="{{ $foto->temporaryUrl() }}" class="img-fluid img-responsive" />
+                                @else
+                                    <img id="foto" class="img-fluid img-responsive" />
+                                @endif
+                            </div>
+                        </div>
+                    
+                        @error('foto')
+                            <span class="help-block text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <textarea id="newMessage" wire:model="newMessages" class="form-control" maxlength="232323"
                             placeholder="Write a new message..." rows="4"></textarea>
 
-                        <button type="button" wire:click.prevent="sendNewMessage"
-                            class="btn btn-primary mt-2">
+                        <button type="button" wire:click.prevent="sendNewMessage" class="btn btn-primary mt-2">
                             Send
                         </button>
                     </div>
@@ -142,18 +170,35 @@
     </div>
 
 
-
-    @script
-        <script>
-            document.addEventListener('livewire:load', () => {
-                Livewire.on('friendRequestProcessed', () => {
-                    const modalElement = document.getElementById('modal1');
-                    if (modalElement) {
-                        const modal = new bootstrap.Modal(modalElement);
-                        modal.show();
-                    }
-                });
-            });
-        </script>
-    @endscript
 </div>
+@script
+    <script>
+        document.addEventListener('livewire:load', () => {
+            Livewire.on('friendRequestProcessed', () => {
+                const modalElement = document.getElementById('modal1');
+                if (modalElement) {
+                    const modal = new bootstrap.Modal(modalElement);
+                    modal.show();
+                }
+            });
+        });
+    </script>
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#newMessage'), {
+                toolbar: [
+                    'undo', 'redo', '|', 'bold', 'italic', '|',
+                    'bulletedList', 'numberedList', 'link', 'blockQuote'
+                ]
+            })
+            .then(function(editor) {
+                editor.model.document.on("change:data", () => {
+                    @this.set('newMessages', editor.getData());
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+@endscript
