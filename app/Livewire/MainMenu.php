@@ -2,8 +2,11 @@
 
 namespace App\Livewire;
 
+use App\Events\UpdateMessages;
+use App\Events\UpdateMessagesPB;
 use App\Models\Friendship;
 use App\Models\Message;
+use App\Models\Message_Image;
 use App\Models\message_Sdr_Rcvr;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
@@ -61,7 +64,7 @@ class MainMenu extends Component
 
         $friend = User::where('friendcode', $this->friendCode)->first();
         if ($friend) {
-            $friendship = Friendship::where('friend_id', $this->myFriendCode)->first();
+            $friendship = Friendship::where('friend_id', $this->myID)->first();
             if ($friendship) {
                 $friendship->mutual = 1;
                 $friendship->save();
@@ -90,18 +93,21 @@ class MainMenu extends Component
             'foto' => 'nullable|image|max:2048', // Valida que sea imagen y menor a 2MB
         ]);
 
-        // Manejar el archivo subido si existe
-        $nombreArch = null;
-        if ($this->foto) {
-            $nombreArch = $this->foto->store('Images', 'public');
-        }
-
-        dd($this->foto);
-
         // Crear el mensaje
         $message = Message::create([
             'content' => $this->newMessages,
         ]);
+
+        // Manejar el archivo subido si existe
+        $nombreArch = null;
+        if ($this->foto) {
+            $nombreArch = $this->foto->store('Images', 'public');
+            $nombreArch = 'storage/' . $nombreArch;
+            Message_Image::create([
+                'message_id' => $message->id,
+                'image_loc' => $nombreArch
+            ]);
+        }
 
         // Crear la relación en message_sdr_rcvr
         message_Sdr_Rcvr::create([
@@ -112,7 +118,12 @@ class MainMenu extends Component
 
         // Mensaje de éxito
         session()->flash('success', 'Message sent successfully!');
-        $this->reset(['newMessages', 'selectedFriend', 'foto']); // Limpiar inputs
+        
+        $this->dispatch('post-created');
+        //dd(broadcast(new UpdateMessages($this->selectedFriend)));
+        broadcast(new UpdateMessagesPB($this->selectedFriend));
+
+        $this->reset(['foto']);
     }
 
     public function mount()

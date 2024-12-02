@@ -1,5 +1,7 @@
 import './bootstrap';
 
+import Pusher from "pusher-js";
+
 import Alpine from 'alpinejs';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'; // CKEditor Classic Build
 

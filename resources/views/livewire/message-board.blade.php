@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" wire:poll.60s="loadMessages">
 
     <!-- Debug: Mostrar ancho y alto
     <div class="mb-3">
@@ -29,7 +29,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="messageModalLabel-{{ $message->id }}">Mi Mensaje</h5>
+                                <h5 class="modal-title" id="messageModalLabel-{{ $message->id }}">Mensaje</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -52,7 +52,7 @@
                                     <div class="col-12 p-3">
                                         <p>{{ $message->content }}</p>
                                         @if ($message->image_loc)
-                                            <img src="{{ $message->image_loc }}" alt="Image"
+                                            <img src="{{ asset($message->image_loc) }}" alt="Image"
                                                 style="width: 100%; height: auto;">
                                         @endif
                                     </div>
@@ -60,7 +60,7 @@
                             </div>
                             <div class="modal-footer">
                                 <a class="btn btn-primary" href="{{ route('viewComments', $message->id) }}">Comments</a>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
@@ -119,7 +119,7 @@
                             </div>
                             <div class="modal-footer">
                                 <a class="btn btn-primary" href="{{ route('viewComments', $message->id) }}">Comments</a>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>

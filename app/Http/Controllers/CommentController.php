@@ -26,7 +26,7 @@ class CommentController extends Controller
             ->where('messages.id', $messageId)
             ->first();
 
-        $comments = Comment::select('comments.*','users.username')
+        $comments = Comment::select('comments.*','users.username','users.pfploc')
         ->join('users', 'users.id', '=', 'comments.user_id')
         ->where('message_id','=',$messageId)->get();
         return view('viewComments', compact('message', 'comments'));

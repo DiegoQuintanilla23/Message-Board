@@ -5,6 +5,9 @@ use App\Http\Controllers\ProfileController;
 use App\Livewire\Main;
 use Illuminate\Support\Facades\Route;
 
+
+use App\Events\UpdateMessages;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,6 +23,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/comments/{messageId}', [CommentController::class, 'viewComments'])->name('viewComments');
 Route::post('/postComment', [CommentController::class, 'postComment'])->name('postComment');
+});
+
+Route::get('/test-event', function () {
+    UpdateMessages::dispatch(1); // Cambia el ID a algo válido
+    return 'Evento enviado';
 });
 
 require __DIR__ . '/auth.php';

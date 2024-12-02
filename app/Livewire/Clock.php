@@ -20,6 +20,6 @@ class Clock extends Component
 
     public function updateTime()
     {
-        $this->currentTime = now()->format('d/m/y, l, H:i');
+        $this->currentTime = now()->format('d/m/y ( l ) H:i');
     }
 }

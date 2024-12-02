@@ -47,9 +47,9 @@ return [
 
         'Images' => [
             'driver' => 'local',
-            'root' => public_path('Images'), // Cambiado a public_path para almacenar en public/Images
-            'url' => env('APP_URL') . '/Images', // URL pública accesible
-            'visibility' => 'public', // Los archivos serán accesibles públicamente
+            'root' => public_path('Images'),
+            'url' => env('APP_URL') . '/storage/Images',
+            'visibility' => 'public',
             'throw' => false,
         ],
 
@@ -65,21 +65,6 @@ return [
             'throw' => false,
         ],
 
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Symbolic Links
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure the symbolic links that will be created when the
-    | `storage:link` Artisan command is executed. The array keys should be
-    | the locations of the links and the values should be their targets.
-    |
-    */
-
-    'links' => [
-        public_path('storage') => storage_path('app/public'),
     ],
 
 ];

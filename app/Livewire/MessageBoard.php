@@ -15,12 +15,23 @@ class MessageBoard extends Component
     public $width = 0;
     public $height = 0;
 
+    public function getListeners(){
+        $myId = Auth::user()->id;
+        return [
+            "echo-private:UpdateMessages.{$myId},UpdateMessages" => 'loadMessages',
+
+                    // Escucha el canal público
+        "echo:UpdateMessagesPB,UpdateMessages" => 'loadMessages', // Aquí 'loadMessages' es el método que manejará el evento.
+        ];
+    }
+
     public function mount()
     {
         $this->loadMessages();
         //$this->messages = [];
     }
 
+    #[On('post-created')]
     public function loadMessages()
     {
         $userId = Auth::id();
